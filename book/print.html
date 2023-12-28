@@ -1,0 +1,762 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>SNRC-20: Starknet Inscription Standard</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZJLBV4KE2"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-0ZJLBV4KE2');
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="Introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Architecture</li><li class="chapter-item expanded "><a href="Inscription_Architecture.html"><strong aria-hidden="true">1.</strong> Design philosophy</a></li><li class="chapter-item expanded "><a href="Techs.html"><strong aria-hidden="true">2.</strong> Tech Stack</a></li><li class="chapter-item expanded affix "><li class="part-title">Operations</li><li class="chapter-item expanded "><a href="Operations.html"><strong aria-hidden="true">3.</strong> Operations Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Deploy_OP.html"><strong aria-hidden="true">3.1.</strong> Deploy</a></li><li class="chapter-item expanded "><a href="Mint_OP.html"><strong aria-hidden="true">3.2.</strong> Mint</a></li><li class="chapter-item expanded "><a href="Transfer_OP.html"><strong aria-hidden="true">3.3.</strong> Transfer</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Integration with Smart Contracts</li><li class="chapter-item expanded "><a href="SNRC_20_Contract.html"><strong aria-hidden="true">4.</strong> SNRC-20 Contract Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Deploy_Interface.html"><strong aria-hidden="true">4.1.</strong> Deploy Interface</a></li><li class="chapter-item expanded "><a href="Mint_Interface.html"><strong aria-hidden="true">4.2.</strong> Mint Interface</a></li><li class="chapter-item expanded "><a href="Transfer_Interface.html"><strong aria-hidden="true">4.3.</strong> Transfer Interface</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Indexer</li><li class="chapter-item expanded "><a href="Indexer.html"><strong aria-hidden="true">5.</strong> Indexer</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">SNRC-20: Starknet Inscription Standard</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="what-is-snrc-20"><a class="header" href="#what-is-snrc-20">What is SNRC-20?</a></h1>
+<p><code>SNRC-20</code> is an inscription standard based on Starknet, developed by developers from the Starknet community worldwide as a public good, capable of off-chain computation and verification.</p>
+<p><code>SNRC-20</code> not only includes standards for the inscription, but also provides integration interfaces for SNRC-20-compatible smart contracts and suggestions for implementing indexers. </p>
+<p><code>SNRC-20</code> strives to ensure fairness, transparency, and efficiency in all processes.</p>
+<p>This standard is inspired by the following projects/standards:</p>
+<ul>
+<li><a href="https://domo-2.gitbook.io/brc-20-experiment/">BRC-20</a></li>
+<li><a href="https://docs.ethscriptions.com/overview/introducing-ethscriptions">Ethscriptions</a></li>
+<li><a href="https://github.com/keep-starknet-strange/unruggable.meme">Unruggable Meme</a></li>
+</ul>
+<p>You can find us here:</p>
+<ul>
+<li><a href="">Official Site</a></li>
+<li><a href="https://twitter.com/snrc20_io">Twitter</a></li>
+<li><a href="https://github.com/orgs/snrc20/">Github</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="snrc-20-design-philosophy"><a class="header" href="#snrc-20-design-philosophy">SNRC-20 Design Philosophy</a></h1>
+<p>Due to the presence of many unnecessary parts in the traditional BRC-20 inscriptions, SNRC-20 adopts the approach of Off-Chain calculation and transmission of hashes for inscriptions. </p>
+<p>For example, a standard BRC-20 inscription requires the following three JSON objects to implement all its operations:</p>
+<p><strong>Deploy</strong></p>
+<pre><code class="language-json">{ 
+  &quot;p&quot;: &quot;brc-20&quot;,
+  &quot;op&quot;: &quot;deploy&quot;,
+  &quot;tick&quot;: &quot;ordi&quot;,
+  &quot;max&quot;: &quot;21000000&quot;,
+  &quot;lim&quot;: &quot;1000&quot;
+}
+</code></pre>
+<p><strong>Mint</strong></p>
+<pre><code class="language-json">{ 
+  &quot;p&quot;: &quot;brc-20&quot;,
+  &quot;op&quot;: &quot;mint&quot;,
+  &quot;tick&quot;: &quot;ordi&quot;,
+  &quot;amt&quot;: &quot;1000&quot;
+}
+</code></pre>
+<p><strong>Transfer</strong></p>
+<pre><code class="language-json">{ 
+  &quot;p&quot;: &quot;brc-20&quot;,
+  &quot;op&quot;: &quot;transfer&quot;,
+  &quot;tick&quot;: &quot;ordi&quot;,
+  &quot;amt&quot;: &quot;100&quot;
+}
+</code></pre>
+<p>We can see that there is a lot of repeated content in these JSON objects.</p>
+<p>For example, if we want to deploy a BRC-20 based inscription that is different from the <code>ordi</code> inscription, we actually only need to change the following three fields:</p>
+<pre><code class="language-json">  &quot;tick&quot;: new_tick,
+  &quot;max&quot;: max_supply,
+  &quot;lim&quot;: limit
+</code></pre>
+<p>The remaining parts are the same for all inscriptions of <code>brc-20</code> protocol, and we can easily restore the complete <code>Deploy</code> inscription json from the above three fields.</p>
+<p>The same applies to <code>Mint</code> and <code>Transfer</code>.</p>
+<p>Since we can infer the <code>Mint</code> or <code>Transfer</code> inscription json from the <code>Deploy</code> inscription json. We only need the <code>tick</code> and <code>amt</code> fields, along with the <code>Deploy</code> inscription json, to restore the complete <code>Mint</code> or <code>Transfer</code> inscription json.</p>
+<p>Therefore, as mentioned above, only three fields are needed to restore the complete <code>Deploy</code> inscription. As long as we can query the complete <code>Deploy</code> inscription, we can restore the <code>Mint</code> and <code>Transfer</code> inscriptions from a few parameters. </p>
+<p>Now we can say that an inscription based on BRC-20 only requires the following JSON data:</p>
+<pre><code class="language-json"> {
+  &quot;tick&quot;: new_tick,
+  &quot;max&quot;: max_supply,
+  &quot;lim&quot;: limit
+  }
+</code></pre>
+<p><strong>This is the initial design concept of SNRC-20.</strong></p>
+<p>However, this is still not concise enough. Do we really need to transmit inscription's data in JSON format and inscribe it on the blockchain? </p>
+<p>As is well known, the Cairo language is not very friendly to <code>string</code> due to its type system. Can we design an inscription system that is more suitable for Starknet?</p>
+<p><strong>We thought of hash.</strong> Hash can be considered the lifeblood of the blockchain. Its uniqueness and verifiability provide great convenience for the blockchain. For unchanging content, using its hash is the best method for transmission, comparison, and indexing. Coincidentally, the inscription system has a lot of unchanging content.</p>
+<p>Also, the default type <code>Felt252</code> of the Cairo language is designed to be suitable for storing hashes. Consider this approach:</p>
+<blockquote>
+<p>Convert the unchanging content into a hash, combine it with the changing content, and use as few <code>Felt252</code> as possible to transmit and inscribe data.</p>
+</blockquote>
+<p><strong>This is the way. This is the design philosophy of SNRC-20.</strong></p>
+<p><img src="https://images2.imgbox.com/a7/a2/IeRo4kn9_o.png" alt="This is the way" /></p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="technologies"><a class="header" href="#technologies">Technologies</a></h2>
+<p>This chapter will provide an overview of the technologies required to implement the design philosophy of SNRC-20.</p>
+<h3 id="poseidon-hash"><a class="header" href="#poseidon-hash">Poseidon HASH</a></h3>
+<p>SNRC-20 uses the <code>Poseidon HASH</code> algorithm, which is friendly to Zero-Knowledge Proofs, for Off-Chain hash computation.</p>
+<p><a href="https://www.poseidon-hash.info/">Poseidon HASH</a> is a family of hash functions designed to be very efficient as algebraic circuits. As a ZK-friendly hashing, they can be very useful in ZK-proving systems such as STARKs.</p>
+<p>Poseidon is a sponge construction based on the Hades permutation. Starknet’s version of Poseidon is based on a three-element state permutation.</p>
+<p>A Poseidon hash of up to 2 elements is defined as follows.</p>
+<p>\[
+poseidon_1(x) := \left[\text{hades_permutation}(x,0,1)\right]_0
+\]</p>
+<p>\[
+poseidon_2(x,y) := \left[\text{hades_permutation}(x,y,2)\right]_0
+\]</p>
+<p>Where \( [\cdot]_j \) denotes taking the j’th coordinate of a tuple.</p>
+<h4 id="poseidon-array-hashing"><a class="header" href="#poseidon-array-hashing">Poseidon Array hashing</a></h4>
+<p>Let \( \text{hades}:\mathbb{F}_P^3\rightarrow\mathbb{F}_P^3 \) denote the Hades permutation, with Starknet’s parameters, then given an array <code>a_1,...,a_n</code> of <em><strong><em>𝑛</em></strong></em> field elements we define <code>poseidon(a_1,...,a_n)</code> to be the first coordinate of <code>H(a_1,...,a_n;0,0,0)</code>, where: 
+\[
+H(a_1,...,a_n;s_1,s_2,s_3)=\begin{cases}
+H\big(a_3,...,a_n;\text{hades}(s_1+a_1, s_2+a_2, s_3)\big), &amp; \text{if  } n\ge 2 \
+\text{hades}(s_1+a_1,s_2+1,s_3), &amp; \text{if  } n=1 \
+\text{hades}(s_1+1,s_2,s_3), &amp; \text{if  } n=0 \
+\end{cases}
+\]</p>
+<h4 id="implementation"><a class="header" href="#implementation">Implementation</a></h4>
+<p>You can find an implementation of <code>Poseidon Hash</code> in Cairo 1 <a href="https://github.com/starkware-libs/cairo/blob/1c02dc554e6923fbb1e24aaf3755bad115144712/corelib/src/poseidon.cairo#L65">here</a>.</p>
+<p>You can also try it in this code block, it is editable and runnable:</p>
+<pre><pre class="playground"><code class="language-rust editable">use core::poseidon::PoseidonTrait;
+use core::hash::{HashStateTrait, HashStateExTrait};
+
+#[derive(Drop, Hash)]
+struct StructForHash {
+    first: felt252,
+    second: felt252,
+    third: (u32, u32),
+    last: bool,
+}
+
+fn main() -&gt; felt252 {
+    let struct_to_hash = StructForHash { first: 0, second: 1, third: (1, 2), last: false };
+
+    let hash = PoseidonTrait::new().update_with(struct_to_hash).finalize();
+    hash
+}
+</code></pre></pre>
+<h3 id="l2---l1-messaging"><a class="header" href="#l2---l1-messaging">L2 -&gt; L1 Messaging</a></h3>
+<p>One of the key characteristics of a Layer 2 solution is its capacity to communicate with Layer 1.</p>
+<p>Starknet employs a unique L1-L2 Messaging system, distinct from its consensus protocol and the process of submitting state updates on L1. This messaging system enables smart contracts on L1 to interface with those on L2 (and vice versa), facilitating &quot;cross-chain&quot; transactions.</p>
+<p><img src="https://images2.imgbox.com/da/8e/3MAMB2eC_o.jpeg" alt="mechanism" /></p>
+<p>In the <code>SNRC-20</code> standard, we use the Messaging System to send the content of the inscriptions to Ethereum L1. This allows the inscriptions to be verified on Ethereum as well, providing new possibilities for cross-chain operations of inscriptions.</p>
+<p>However, when sending a message from Starknet to Ethereum, only the hash of the message is sent on L1 by the Starknet sequencer. You must write your own Ethereum contract to consume the message manually.</p>
+<p>You can learn how to do it <a href="https://book.cairo-lang.org/ch99-04-00-L1-L2-messaging.html">here</a>.</p>
+<h2 id="what-is-the-next"><a class="header" href="#what-is-the-next">What is the next?</a></h2>
+<p>In the following chapters, we will explain in detail the specific format and calculation methods for each inscription operation. </p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="snrc-20-operations-overview"><a class="header" href="#snrc-20-operations-overview">SNRC-20 Operations Overview</a></h1>
+<p>The <code>SNRC-20</code> standard defines the following three operations, along with their inputs and outputs. </p>
+<p>In the most ideal and simple case, the output and input of an operation should be equivalent.</p>
+<h2 id="operations"><a class="header" href="#operations">Operations</a></h2>
+<ul>
+<li><a href="Deploy_OP.html">Deploy</a></li>
+<li><a href="Mint_OP.html">Mint</a></li>
+<li><a href="Transfer_OP.html">Transfer</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="deploy-snrc-20"><a class="header" href="#deploy-snrc-20">Deploy SNRC-20</a></h1>
+<h2 id="off-chain-calculation"><a class="header" href="#off-chain-calculation">Off-Chain Calculation</a></h2>
+<p>Consider the following inscription format, similar to <a href="https://domo-2.gitbook.io/brc-20-experiment/">BRC-20</a>:</p>
+<pre><code class="language-json">{ 
+  &quot;p&quot;: &quot;snrc-20&quot;,
+  &quot;op&quot;: &quot;deploy&quot;,
+  &quot;tick&quot;: &quot;COOL&quot;,
+  &quot;max&quot;: &quot;140888&quot;,
+  &quot;lim&quot;: &quot;140888&quot; 
+}
+</code></pre>
+<p>It's important to note that, since the default type of the Cairo virtual machine is <code>Felt252</code>, all numerical parameters should be of the u128 type, which ranges from <code>0</code> to <code>2^128-1</code> and can fit within 252 bits. The type requirements are as follows:</p>
+<div class="table-wrapper"><table><thead><tr><th>Key</th><th>type</th><th>Description</th></tr></thead><tbody>
+<tr><td>p</td><td>Felt252(ShortString)</td><td>Protocol: Helps other systems identify and process snrc-20 events</td></tr>
+<tr><td>op</td><td>Felt252(ShortString)</td><td>Operation: Type of event (Deploy, Mint, Transfer)</td></tr>
+<tr><td>tick</td><td>Felt252(ShortString)</td><td>Ticker: A string identifier of the snrc-20</td></tr>
+<tr><td>max</td><td>Felt252(u128)</td><td>Max supply: set max supply of the snrc-20</td></tr>
+<tr><td>lim</td><td>Felt252(u128)</td><td>Mint limit: Limit per tx for users</td></tr>
+</tbody></table>
+</div>
+<p>At the same time, to be compatible with the <a href="https://docs.ethscriptions.com/overview/protocol-specification#how-to-validate-a-datauri">ETHS</a> standard, we also need to satisfy the validation of <code>contentURI</code>. </p>
+<p>Therefore, the final Deploy inscription format involved in the calculation is as follows:</p>
+<pre><code class="language-json">data:,{ 
+  &quot;p&quot;: &quot;snrc-20&quot;,
+  &quot;op&quot;: &quot;deploy&quot;,
+  &quot;tick&quot;: &quot;COOL&quot;,
+  &quot;max&quot;: &quot;140888&quot;,
+  &quot;lim&quot;: &quot;140888&quot; 
+}
+</code></pre>
+<p>Next, we need to calculate the <code>Poseidon Hash</code> of the fixed part of the Mint inscription. The complete Cairo program code is as follows(The following code block is editable and runnable) :</p>
+<pre><pre class="playground"><code class="language-rust editable">use core::clone::Clone;
+use core::serde::Serde;
+use core::poseidon::PoseidonTrait;
+use core::byte_array::ByteArrayTrait;
+use core::hash::{HashStateTrait, HashStateExTrait};
+use core::array::{ArrayTrait, SpanTrait};
+use core::traits::{Into, TryInto};
+
+fn main() -&gt; felt252 {
+    /// Replace this with your own data. Be careful you should stringify it first.
+    let tick = 'COOL';
+    let max: u128 = 140888;
+    let lim: u128 = 140888;
+    let payload_pref: ByteArray = &quot;data:,{\&quot;p\&quot;:\&quot;snrc-20\&quot;,\&quot;op\&quot;:\&quot;deploy\&quot;,\&quot;tick\&quot;:\&quot;&quot;;
+    let payload_max: ByteArray = &quot;\&quot;,\&quot;max\&quot;:\&quot;&quot;;
+    let payload_lim: ByteArray = &quot;\&quot;,\&quot;lim\&quot;:\&quot;&quot;;
+    let payload_remain: ByteArray = &quot;\&quot;}&quot;;
+
+    let mut output_array = ArrayTrait::&lt;felt252&gt;::new();
+    let mut i: usize = 0;
+    /// This is the same as `let serialized = payload.serialize(ref output_array);`
+    /// , but it still not supported by the online compiler
+    ///
+    loop {
+        if i &gt;= payload_pref.len() {
+            break;
+        }
+        let char = payload_pref.at(i).unwrap();
+        char.serialize(ref output_array);
+        i += 1;
+    };
+    tick.serialize(ref output_array);
+    i=0;
+    loop {
+        if i &gt;= payload_max.len() {
+            break;
+        }
+        let char = payload_max.at(i).unwrap();
+        char.serialize(ref output_array);
+        i += 1;
+    };
+    i=0;
+    max.serialize(ref output_array);
+    loop {
+        if i &gt;= payload_lim.len() {
+            break;
+        }
+        let char = payload_lim.at(i).unwrap();
+        char.serialize(ref output_array);
+        i += 1;
+    };
+    i=0;
+    lim.serialize(ref output_array);
+    loop {
+        if i &gt;= payload_remain.len() {
+            break;
+        }
+        let char = payload_remain.at(i).unwrap();
+        char.serialize(ref output_array);
+        i += 1;
+    };
+    core::poseidon::poseidon_hash_span(output_array.span())
+}</code></pre></pre>
+<p>The return value of this Cairo program is </p>
+<p><code>3539966466338062280723903945602743530625753975496839308572805391711777814555</code></p>
+<p>, represented in hex as </p>
+<p><code>0x7d38ccde6d4bc0efda3e101b134f7806e37b03894aa41afa9fe0268687f781b</code>.</p>
+<p>This is the hash value corresponding to the Deploy operation. </p>
+<p>Through this hash value, we will be able to identify what operations the user has performed on chain in the indexer, and restore the complete inscription by searching the hash table.</p>
+<h2 id="organize-parameters-for-deploy-operartion"><a class="header" href="#organize-parameters-for-deploy-operartion">Organize parameters for Deploy operartion</a></h2>
+<p>However, for the complete Deploy parameters, we also need the hash values corresponding to the inscriptions of Mint and Transfer operations. </p>
+<p>Please refer to the next two chapters for this content. Here, for this tick : </p>
+<pre><code>  &quot;tick&quot;: &quot;COOL&quot;,
+  &quot;max&quot;: &quot;140888&quot;,
+  &quot;lim&quot;: &quot;140888&quot; 
+</code></pre>
+<p>We will first assume that the hash corresponding to Mint is </p>
+<p><code>0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5</code></p>
+<p>, and the hash corresponding to Transfer is </p>
+<p><code>0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d</code>.</p>
+<p>A Deploy operation requires the following six parameters:</p>
+<div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
+<tr><td>Deploy_hash</td><td>Felt252</td><td>Hash of Deploy operation</td></tr>
+<tr><td>Mint_hash</td><td>Felt252</td><td>Hash of Mint operation</td></tr>
+<tr><td>Transfer_hash</td><td>Felt252</td><td>Hash of Transfer operation</td></tr>
+<tr><td>Tick</td><td>Felt252(ShortString)</td><td>Ticker: A string identifier of the snrc-20</td></tr>
+<tr><td>Max</td><td>Felt252(u128)</td><td>Max supply: Max supply of the snrc-20</td></tr>
+<tr><td>Lim</td><td>Felt252(u128)</td><td>Mint limit: Limit per tx for users</td></tr>
+</tbody></table>
+</div>
+<p>Where <code>deploy_hash</code>, <code>mint_hash</code>, <code>transfer_hash</code> are the <code>Poseidon Hash</code> corresponding to the Deploy, Mint, and Transfer inscriptions respectively.</p>
+<h2 id="deploy-an-inscription-by-a-snrc-20-contract"><a class="header" href="#deploy-an-inscription-by-a-snrc-20-contract">Deploy an inscription by a SNRC-20 Contract</a></h2>
+<p>When users deploy an inscription in a contract that meets the <code>SNRC-20</code> standard, they need to organize their input in a format like previous section said.</p>
+<p>The input value in this example should be:</p>
+<pre><code class="language-json">&quot;Deploy_hash&quot;: &quot;0x7d38ccde6d4bc0efda3e101b134f7806e37b03894aa41afa9fe0268687f781b&quot;
+&quot;Mint_hash&quot;: &quot;0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5&quot;
+&quot;Transfer_hash&quot;: &quot;0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d&quot;,
+&quot;Tick&quot;: &quot;COOL&quot;,
+&quot;Max&quot;: 140888,
+&quot;Lim&quot;: 140888
+</code></pre>
+<p>Then, the contract that complies with the <code>SNRC-20</code> standard will inscribe the above input into the <code>L2-&gt;L1</code> Message and emit an event.</p>
+<p>For more information about the SNRC-20 Contract, please refer to <a href="SNRC_20_Contract.html">this chapter</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mint-snrc-20"><a class="header" href="#mint-snrc-20">Mint SNRC-20</a></h1>
+<h2 id="off-chain-calculation-1"><a class="header" href="#off-chain-calculation-1">Off-Chain Calculation</a></h2>
+<p>Firstly, for any mint operation, we need to prepare the following standard inscription format similar to <a href="https://domo-2.gitbook.io/brc-20-experiment/">BRC-20</a>, but without <code>amt</code>:</p>
+<pre><code class="language-json">{ 
+  &quot;p&quot;: &quot;snrc-20&quot;,
+  &quot;op&quot;: &quot;mint&quot;,
+  &quot;tick&quot;: &quot;tick&quot;
+}
+</code></pre>
+<p>At the same time, to be compatible with the <a href="https://docs.ethscriptions.com/overview/protocol-specification#how-to-validate-a-datauri">ETHS</a> standard, we also need to satisfy the validation of <code>contentURI</code>. Therefore, the final Mint inscription format involved in the calculation is as follows:</p>
+<pre><code class="language-json">data:,{ 
+  &quot;p&quot;: &quot;snrc-20&quot;,
+  &quot;op&quot;: &quot;mint&quot;,
+  &quot;tick&quot;: &quot;tick&quot;
+}
+</code></pre>
+<p>Next, we need to calculate the <code>Poseidon Hash</code> of the fixed part of the Mint inscription. The complete Cairo program code is as follows(The following code block is editable and runnable) :</p>
+<pre><pre class="playground"><code class="language-rust editable">use core::serde::Serde;
+use core::poseidon::PoseidonTrait;
+use core::byte_array::ByteArrayTrait;
+use core::hash::{HashStateTrait, HashStateExTrait};
+use core::array::{ArrayTrait, SpanTrait};
+use core::traits::{Into, TryInto};
+
+fn main() -&gt; felt252 {
+    /// Replace this with your own data. Be careful you should stringify it first.
+    let tick = 'COOL';
+    let payload_pref: ByteArray = &quot;data:,{\&quot;p\&quot;:\&quot;snrc-20\&quot;,\&quot;op\&quot;:\&quot;mint\&quot;,\&quot;tick\&quot;:\&quot;&quot;;
+    let payload_remain: ByteArray = &quot;\&quot;}&quot;;
+    let mut output_array = ArrayTrait::&lt;felt252&gt;::new();
+    let mut i: usize = 0;
+    /// This is the same as `let serialized = payload.serialize(ref output_array);`
+    /// , but it still not supported by the online compiler
+    ///
+    loop {
+        if i &gt;= payload_pref.len() {
+            break;
+        }
+        let char = payload_pref.at(i).unwrap();
+        char.serialize(ref output_array);
+        i += 1;
+    };
+    tick.serialize(ref output_array);
+    let mut i: usize = 0;
+    loop {
+        if i &gt;= payload_remain.len() {
+            break;
+        }
+        let char = payload_remain.at(i).unwrap();
+        char.serialize(ref output_array);
+        i += 1;
+    };
+    core::poseidon::poseidon_hash_span(output_array.span())
+}
+</code></pre></pre>
+<p>The return value of this Cairo program is <code>2536130100659665097965802068216911480645752635083323598690123513832282361525</code>, represented in hex as <code>0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5</code>.</p>
+<p>This is the hash value corresponding to the Mint operation. </p>
+<p>Through this hash value, we will be able to identify what operations the user has performed on chain in the indexer, and restore the complete inscription by searching the hash table.</p>
+<h2 id="mint-an-inscription-by-a-snrc-20-contract"><a class="header" href="#mint-an-inscription-by-a-snrc-20-contract">Mint an inscription by a SNRC-20 Contract</a></h2>
+<p>When users mint in a contract that meets the <code>SNRC-20</code> standard, they need to organize their input in the following format:</p>
+<div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
+<tr><td>Mint_hash</td><td>Felt252</td><td>Hash of Mint operation</td></tr>
+<tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of mint</td></tr>
+</tbody></table>
+</div>
+<p>Referring to the <code>Lim</code> field in the previous <code>Deploy</code> operation example, we can set <code>Amount</code> to 140888.</p>
+<p>Therefore, the input value in this example should be:</p>
+<pre><code class="language-json">&quot;Mint_hash&quot;: &quot;0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5&quot;
+&quot;Amount&quot;: 140888
+</code></pre>
+<p>Then, the contract that complies with the <code>SNRC-20</code> standard will inscribe the above input into the <code>L2-&gt;L1</code> Message and emit an event.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="transfer-snrc-20"><a class="header" href="#transfer-snrc-20">Transfer SNRC-20</a></h1>
+<h2 id="off-chain-calculation-2"><a class="header" href="#off-chain-calculation-2">Off-Chain Calculation</a></h2>
+<p>Firstly, for any transfer operation, we need to prepare the following standard inscription format similar to <a href="https://domo-2.gitbook.io/brc-20-experiment/">BRC-20</a>, but without <code>amt</code>:</p>
+<pre><code class="language-json">{ 
+  &quot;p&quot;: &quot;snrc-20&quot;,
+  &quot;op&quot;: &quot;transfer&quot;,
+  &quot;tick&quot;: &quot;tick&quot;
+}
+</code></pre>
+<p>At the same time, to be compatible with the <a href="https://docs.ethscriptions.com/overview/protocol-specification#how-to-validate-a-datauri">ETHS</a> standard, we also need to satisfy the validation of <code>contentURI</code>. Therefore, the final Transfer inscription format involved in the calculation is as follows:</p>
+<pre><code class="language-json">data:,{ 
+  &quot;p&quot;: &quot;snrc-20&quot;,
+  &quot;op&quot;: &quot;transfer&quot;,
+  &quot;tick&quot;: &quot;tick&quot;
+}
+</code></pre>
+<p>Next, we need to calculate the <code>Poseidon Hash</code> of the fixed part of the Transfer inscription. The complete Cairo program code is as follows(The following code block is editable and runnable) :</p>
+<pre><pre class="playground"><code class="language-rust editable">use core::serde::Serde;
+use core::poseidon::PoseidonTrait;
+use core::byte_array::ByteArrayTrait;
+use core::hash::{HashStateTrait, HashStateExTrait};
+use core::array::{ArrayTrait, SpanTrait};
+use core::traits::{Into, TryInto};
+
+fn main() -&gt; felt252 {
+    /// Replace this with your own data. Be careful you should stringify it first.
+    let tick = 'COOL';
+    let payload_pref: ByteArray = &quot;data:,{\&quot;p\&quot;:\&quot;snrc-20\&quot;,\&quot;op\&quot;:\&quot;transfer\&quot;,\&quot;tick\&quot;:\&quot;&quot;;
+    let payload_remain: ByteArray = &quot;\&quot;}&quot;;
+    let mut output_array = ArrayTrait::&lt;felt252&gt;::new();
+    let mut i: usize = 0;
+    /// This is the same as `let serialized = payload.serialize(ref output_array);`
+    /// , but it still not supported by the online compiler
+    ///
+    loop {
+        if i &gt;= payload_pref.len() {
+            break;
+        }
+        let char = payload_pref.at(i).unwrap();
+        char.serialize(ref output_array);
+        i += 1;
+    };
+    tick.serialize(ref output_array);
+    let mut i: usize = 0;
+    loop {
+        if i &gt;= payload_remain.len() {
+            break;
+        }
+        let char = payload_remain.at(i).unwrap();
+        char.serialize(ref output_array);
+        i += 1;
+    };
+    core::poseidon::poseidon_hash_span(output_array.span())
+}
+</code></pre></pre>
+<p>The return value of this Cairo program is <code>2933912682363903274717204685294024416745761509503926972848308509530766961245</code>, represented in hex as <code>0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d</code>.
+This is the hash value corresponding to the Mint operation. 
+Through this hash value, we will be able to identify what operations the user has performed on chain in the indexer, and restore the complete inscription by searching the hash table.</p>
+<h2 id="transfer-an-inscription-by-a-snrc-20-contract"><a class="header" href="#transfer-an-inscription-by-a-snrc-20-contract">Transfer an inscription by a SNRC-20 Contract</a></h2>
+<p>When users transfer in a contract that meets the <code>SNRC-20</code> standard, they need to organize their input in the following format:</p>
+<div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
+<tr><td>Transfer_hash</td><td>Felt252</td><td>Hash of Transfer operation</td></tr>
+<tr><td>Recipient</td><td>Felt252(address)</td><td>Address of the recipient</td></tr>
+<tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of transfer</td></tr>
+</tbody></table>
+</div>
+<p>For the Transfer operation, there is no <code>Lim</code> limit -- of course, you cannot transfer more than the amount of inscription balance you own.</p>
+<p>Therefore, the input value in this example should be:</p>
+<pre><code class="language-json">&quot;Transfer_hash&quot;: &quot;0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d&quot;
+&quot;Recipient&quot;: &quot;0x0&quot;
+&quot;Amount&quot;: 140888
+</code></pre>
+<p>Then, the contract that complies with the <code>SNRC-20</code> standard will inscribe the above input into the <code>L2-&gt;L1</code> Message and emit an event.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="snrc-20-contract"><a class="header" href="#snrc-20-contract">SNRC-20 Contract</a></h1>
+<p>An <code>SNRC-20</code> contract refers to a contract that can issue <code>SNRC-20</code> operations. As is well known, since there are no EOA addresses in Starknet, accounts themselves are contracts, and you can consider SNRC-20 as an extension of abstract accounts. Anyone can deploy an independent <code>SNRC-20</code> contract, or integrate the interface defined below into a contract to become an <code>SNRC-20</code> compatible contract.</p>
+<h2 id="interfaces"><a class="header" href="#interfaces">Interfaces</a></h2>
+<ul>
+<li><a href="Deploy_Interface.html">Deploy Interface</a></li>
+<li><a href="Mint_Interface.html">Mint Interface</a></li>
+<li><a href="Transfer_Interface.html">Transfer Interface</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="deploy-function-interface"><a class="header" href="#deploy-function-interface">Deploy function Interface</a></h1>
+<p>The Deploy Interface defines a function interface that can execute a <a href="Deploy_OP.html">Deploy operation</a>.</p>
+<h2 id="input"><a class="header" href="#input">Input</a></h2>
+<p>There are no strict requirements for the input, but it is recommended to use the input format defined in the <a href="Deploy_OP.html">Deploy operation</a>.</p>
+<p>You can also write a function that only takes the <code>tick</code>, <code>max</code>, <code>lim</code> parameters, then calculate the hash of all operations in your contract and inscribe it into the message, although this will consume more gas.</p>
+<h2 id="output"><a class="header" href="#output">Output</a></h2>
+<p>The output of this function should be a message payload, which conform to the following format:</p>
+<div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
+<tr><td>Deploy_hash</td><td>Felt252</td><td>Hash of Deploy operation</td></tr>
+<tr><td>Mint_hash</td><td>Felt252</td><td>Hash of Mint operation</td></tr>
+<tr><td>Transfer_hash</td><td>Felt252</td><td>Hash of Transfer operation</td></tr>
+<tr><td>Tick</td><td>Felt252(ShortString)</td><td>Ticker: A string identifier of the snrc-20</td></tr>
+<tr><td>Max</td><td>Felt252(u128)</td><td>Max supply: Max supply of the snrc-20</td></tr>
+<tr><td>Lim</td><td>Felt252(u128)</td><td>Mint limit: Limit per tx for users</td></tr>
+</tbody></table>
+</div>
+<p>These data contain the key elements to restore the complete <code>Deploy</code> inscription, and provide the Hash for <code>Mint</code> and <code>Transfer</code>, which will facilitate indexing.</p>
+<p>Here is an example of an message payload(in Hex):</p>
+<div class="table-wrapper"><table><thead><tr><th>Index</th><th>Value</th></tr></thead><tbody>
+<tr><td>0</td><td>0x7d38ccde6d4bc0efda3e101b134f7806e37b03894aa41afa9fe0268687f781b</td></tr>
+<tr><td>1</td><td>0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5</td></tr>
+<tr><td>2</td><td>0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d</td></tr>
+<tr><td>3</td><td>0x434f4f4c</td></tr>
+<tr><td>4</td><td>0x22658</td></tr>
+<tr><td>5</td><td>0x22658</td></tr>
+</tbody></table>
+</div>
+<h2 id="event"><a class="header" href="#event">Event</a></h2>
+<p>After a Deploy function is successfully executed, it should emit an event. This will facilitate the indexer to include this transaction.</p>
+<p>The format of the events is as follows:</p>
+<p><code>event Deploy(sender, hash, tick, max, lim)</code></p>
+<p>The parameters are:</p>
+<div class="table-wrapper"><table><thead><tr><th>Input</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>sender</td><td>ContractAddress</td><td>Sender's address</td></tr>
+<tr><td>hash</td><td>Array::&lt; Felt252 &gt;</td><td>[Deploy_hash, Mint_hash, Transfer_hash]</td></tr>
+<tr><td>tick</td><td>Felt252(ShortString)</td><td>A string identifier of the snrc-20</td></tr>
+<tr><td>max</td><td>Felt252(u128)</td><td>Max supply: Max supply of the snrc-20</td></tr>
+<tr><td>lim</td><td>Felt252(u128)</td><td>Mint limit: Limit per tx for users</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="mint-function-interface"><a class="header" href="#mint-function-interface">Mint function Interface</a></h1>
+<p>The Mint Interface defines a function interface that can execute a <a href="Mint_OP.html">Mint operation</a>.</p>
+<h2 id="input-1"><a class="header" href="#input-1">Input</a></h2>
+<p>There are no strict requirements for the input, but it is recommended to use the input format defined in the <a href="Mint_OP.html">Mint operation</a>.</p>
+<p>You can also write a function that only takes the <code>tick</code>, <code>amt</code> parameters, then calculate the hash of all operations in your contract and inscribe it into the message, although this will consume more gas.</p>
+<h2 id="output-1"><a class="header" href="#output-1">Output</a></h2>
+<p>The output of this function should be a message payload, which conform to the following format:</p>
+<div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
+<tr><td>Mint_hash</td><td>Felt252</td><td>Hash of Mint operation</td></tr>
+<tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of this mint operation</td></tr>
+</tbody></table>
+</div>
+<p>These data contain the key elements to restore the complete <code>Mint</code> inscription.</p>
+<p>Here is an example of an message payload(in Hex):</p>
+<div class="table-wrapper"><table><thead><tr><th>Index</th><th>Value</th></tr></thead><tbody>
+<tr><td>0</td><td>0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5</td></tr>
+<tr><td>1</td><td>0x22658</td></tr>
+</tbody></table>
+</div>
+<h2 id="event-1"><a class="header" href="#event-1">Event</a></h2>
+<p>After a Mint function is successfully executed, it should emit an event. This will facilitate the indexer to include this transaction.</p>
+<p>The format of the events is as follows:</p>
+<p><code>event Mint(sender, hash, amount)</code></p>
+<p>The parameters are:</p>
+<div class="table-wrapper"><table><thead><tr><th>Input</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>sender</td><td>ContractAddress</td><td>Sender's address</td></tr>
+<tr><td>hash</td><td>Felt252</td><td>Mint_hash</td></tr>
+<tr><td>amount</td><td>Felt252(u128)</td><td>Amount of this mint operation</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="transfer-function-interface"><a class="header" href="#transfer-function-interface">Transfer function Interface</a></h1>
+<p>The Transfer Interface defines a function interface that can execute a <a href="Transfer_OP.html">Transfer operation</a>.</p>
+<h2 id="input-2"><a class="header" href="#input-2">Input</a></h2>
+<p>There are no strict requirements for the input, but it is recommended to use the input format defined in the <a href="Transfer_OP.html">Transfer operation</a>.</p>
+<p>You can also write a function that only takes the <code>tick</code>, <code>amt</code> and <code>recipient</code> parameters, then calculate the hash of all operations in your contract and inscribe it into the message, although this will consume more gas.</p>
+<h2 id="output-2"><a class="header" href="#output-2">Output</a></h2>
+<p>The output of this function should be a message payload, which conform to the following format:</p>
+<div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
+<tr><td>Transfer_hash</td><td>Felt252</td><td>Hash of Transfer operation</td></tr>
+<tr><td>Recipient</td><td>ContractAddress</td><td>Recipient's address</td></tr>
+<tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of this transfer operation</td></tr>
+</tbody></table>
+</div>
+<p>These data contain the key elements to restore the complete <code>Transfer</code> inscription.</p>
+<p>Here is an example of an message payload(in Hex):</p>
+<div class="table-wrapper"><table><thead><tr><th>Index</th><th>Value</th></tr></thead><tbody>
+<tr><td>0</td><td>0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d</td></tr>
+<tr><td>1</td><td>0x0</td></tr>
+<tr><td>2</td><td>0x22658</td></tr>
+</tbody></table>
+</div>
+<h2 id="event-2"><a class="header" href="#event-2">Event</a></h2>
+<p>After a Transfer function is successfully executed, it should emit an event. This will facilitate the indexer to include this transaction.</p>
+<p>The format of the events is as follows:</p>
+<p><code>event Trasfer(sender, hash, recipient, amount)</code></p>
+<p>The parameters are:</p>
+<div class="table-wrapper"><table><thead><tr><th>Input</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>sender</td><td>ContractAddress</td><td>Sender's address</td></tr>
+<tr><td>hash</td><td>Felt252</td><td>Mint_hash</td></tr>
+<tr><td>recipient</td><td>ContractAddress</td><td>Recipient's address</td></tr>
+<tr><td>amount</td><td>Felt252(u128)</td><td>Amount of this mint operation</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="indexer"><a class="header" href="#indexer">Indexer</a></h1>
+<p>Since inscriptions do not adopt the account balance mechanism by default (reminder: you can still combine it with the account balance mechanism, this is not mandatory), you need an indexer to record user balances.</p>
+<p>For a contract that complies with the <code>SNRC-20</code> standard, there are two ways to index: </p>
+<p><strong>Complete indexing</strong> and <strong>Quick indexing</strong>.</p>
+<h2 id="how-to-index"><a class="header" href="#how-to-index">How to index?</a></h2>
+<h3 id="complete-indexing"><a class="header" href="#complete-indexing">Complete Indexing</a></h3>
+<p>Complete indexing means that for an inscription transaction, you need to obtain its <code>Events</code>, <code>Transaction</code>, <code>TransactionReceipt</code> on the Starknet chain, and index them.</p>
+<h3 id="quick-indexing"><a class="header" href="#quick-indexing">Quick Indexing</a></h3>
+<p>Quick indexing allows you to only index <code>Events</code>, to establish an index that only contains basic inscription information. This is suitable for scenarios that do not need to read <code>L2-&gt;L1 Message</code>.</p>
+<h3 id="use-full-node-or-rpc-service"><a class="header" href="#use-full-node-or-rpc-service">Use Full-node or RPC service</a></h3>
+<p>You can obtain the necessary information through any Full-node or RPC service with an endpoint version greater than <code>0.5</code>. 
+Here is a list of <a href="https://www.starknet.io/en/ecosystem/fullnodes-and-rpc-services">available services</a>.</p>
+<p>You can refer to the <a href="https://docs.data.voyager.online/refs">Voyager's</a> documentation to learn how to use Starknet's RPC service and find the APIs you need.</p>
+<?// TODO: Full example>
+
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+        <script src="js/index.mjs"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

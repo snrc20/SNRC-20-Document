@@ -1,0 +1,285 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Tech Stack - SNRC-20: Starknet Inscription Standard</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZJLBV4KE2"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-0ZJLBV4KE2');
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="Introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Architecture</li><li class="chapter-item expanded "><a href="Inscription_Architecture.html"><strong aria-hidden="true">1.</strong> Design philosophy</a></li><li class="chapter-item expanded "><a href="Techs.html" class="active"><strong aria-hidden="true">2.</strong> Tech Stack</a></li><li class="chapter-item expanded affix "><li class="part-title">Operations</li><li class="chapter-item expanded "><a href="Operations.html"><strong aria-hidden="true">3.</strong> Operations Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Deploy_OP.html"><strong aria-hidden="true">3.1.</strong> Deploy</a></li><li class="chapter-item expanded "><a href="Mint_OP.html"><strong aria-hidden="true">3.2.</strong> Mint</a></li><li class="chapter-item expanded "><a href="Transfer_OP.html"><strong aria-hidden="true">3.3.</strong> Transfer</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Integration with Smart Contracts</li><li class="chapter-item expanded "><a href="SNRC_20_Contract.html"><strong aria-hidden="true">4.</strong> SNRC-20 Contract Overview</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Deploy_Interface.html"><strong aria-hidden="true">4.1.</strong> Deploy Interface</a></li><li class="chapter-item expanded "><a href="Mint_Interface.html"><strong aria-hidden="true">4.2.</strong> Mint Interface</a></li><li class="chapter-item expanded "><a href="Transfer_Interface.html"><strong aria-hidden="true">4.3.</strong> Transfer Interface</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Indexer</li><li class="chapter-item expanded "><a href="Indexer.html"><strong aria-hidden="true">5.</strong> Indexer</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">SNRC-20: Starknet Inscription Standard</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="technologies"><a class="header" href="#technologies">Technologies</a></h2>
+<p>This chapter will provide an overview of the technologies required to implement the design philosophy of SNRC-20.</p>
+<h3 id="poseidon-hash"><a class="header" href="#poseidon-hash">Poseidon HASH</a></h3>
+<p>SNRC-20 uses the <code>Poseidon HASH</code> algorithm, which is friendly to Zero-Knowledge Proofs, for Off-Chain hash computation.</p>
+<p><a href="https://www.poseidon-hash.info/">Poseidon HASH</a> is a family of hash functions designed to be very efficient as algebraic circuits. As a ZK-friendly hashing, they can be very useful in ZK-proving systems such as STARKs.</p>
+<p>Poseidon is a sponge construction based on the Hades permutation. Starknet’s version of Poseidon is based on a three-element state permutation.</p>
+<p>A Poseidon hash of up to 2 elements is defined as follows.</p>
+<p>\[
+poseidon_1(x) := \left[\text{hades_permutation}(x,0,1)\right]_0
+\]</p>
+<p>\[
+poseidon_2(x,y) := \left[\text{hades_permutation}(x,y,2)\right]_0
+\]</p>
+<p>Where \( [\cdot]_j \) denotes taking the j’th coordinate of a tuple.</p>
+<h4 id="poseidon-array-hashing"><a class="header" href="#poseidon-array-hashing">Poseidon Array hashing</a></h4>
+<p>Let \( \text{hades}:\mathbb{F}_P^3\rightarrow\mathbb{F}_P^3 \) denote the Hades permutation, with Starknet’s parameters, then given an array <code>a_1,...,a_n</code> of <em><strong><em>𝑛</em></strong></em> field elements we define <code>poseidon(a_1,...,a_n)</code> to be the first coordinate of <code>H(a_1,...,a_n;0,0,0)</code>, where: 
+\[
+H(a_1,...,a_n;s_1,s_2,s_3)=\begin{cases}
+H\big(a_3,...,a_n;\text{hades}(s_1+a_1, s_2+a_2, s_3)\big), &amp; \text{if  } n\ge 2 \
+\text{hades}(s_1+a_1,s_2+1,s_3), &amp; \text{if  } n=1 \
+\text{hades}(s_1+1,s_2,s_3), &amp; \text{if  } n=0 \
+\end{cases}
+\]</p>
+<h4 id="implementation"><a class="header" href="#implementation">Implementation</a></h4>
+<p>You can find an implementation of <code>Poseidon Hash</code> in Cairo 1 <a href="https://github.com/starkware-libs/cairo/blob/1c02dc554e6923fbb1e24aaf3755bad115144712/corelib/src/poseidon.cairo#L65">here</a>.</p>
+<p>You can also try it in this code block, it is editable and runnable:</p>
+<pre><pre class="playground"><code class="language-rust editable">use core::poseidon::PoseidonTrait;
+use core::hash::{HashStateTrait, HashStateExTrait};
+
+#[derive(Drop, Hash)]
+struct StructForHash {
+    first: felt252,
+    second: felt252,
+    third: (u32, u32),
+    last: bool,
+}
+
+fn main() -&gt; felt252 {
+    let struct_to_hash = StructForHash { first: 0, second: 1, third: (1, 2), last: false };
+
+    let hash = PoseidonTrait::new().update_with(struct_to_hash).finalize();
+    hash
+}
+</code></pre></pre>
+<h3 id="l2---l1-messaging"><a class="header" href="#l2---l1-messaging">L2 -&gt; L1 Messaging</a></h3>
+<p>One of the key characteristics of a Layer 2 solution is its capacity to communicate with Layer 1.</p>
+<p>Starknet employs a unique L1-L2 Messaging system, distinct from its consensus protocol and the process of submitting state updates on L1. This messaging system enables smart contracts on L1 to interface with those on L2 (and vice versa), facilitating &quot;cross-chain&quot; transactions.</p>
+<p><img src="https://images2.imgbox.com/da/8e/3MAMB2eC_o.jpeg" alt="mechanism" /></p>
+<p>In the <code>SNRC-20</code> standard, we use the Messaging System to send the content of the inscriptions to Ethereum L1. This allows the inscriptions to be verified on Ethereum as well, providing new possibilities for cross-chain operations of inscriptions.</p>
+<p>However, when sending a message from Starknet to Ethereum, only the hash of the message is sent on L1 by the Starknet sequencer. You must write your own Ethereum contract to consume the message manually.</p>
+<p>You can learn how to do it <a href="https://book.cairo-lang.org/ch99-04-00-L1-L2-messaging.html">here</a>.</p>
+<h2 id="what-is-the-next"><a class="header" href="#what-is-the-next">What is the next?</a></h2>
+<p>In the following chapters, we will explain in detail the specific format and calculation methods for each inscription operation. </p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Inscription_Architecture.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="Operations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Inscription_Architecture.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="Operations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+        <script src="ace.js"></script>
+        <script src="editor.js"></script>
+        <script src="mode-rust.js"></script>
+        <script src="theme-dawn.js"></script>
+        <script src="theme-tomorrow_night.js"></script>
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+        <script src="js/index.mjs"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

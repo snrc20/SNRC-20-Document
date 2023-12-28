@@ -1,0 +1,12 @@
+[book]
+authors = ["BryanIngte"]
+language = "en"
+multilingual = false
+src = "src"
+title = "SNRC-20: Starknet Inscription Standard"
+
+[output.html]
+mathjax-support = true
+
+[output.html.playground]
+editable = true
