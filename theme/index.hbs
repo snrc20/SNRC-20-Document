@@ -55,6 +55,16 @@
     </head>
     <body>
     <div id="body-container">
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXF2XWP1XW"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-PXF2XWP1XW');
+        </script>
+        
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "{{ path_to_root }}";
