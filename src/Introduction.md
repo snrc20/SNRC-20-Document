@@ -1,5 +1,7 @@
 # What is SNRC-20?
 
+![](https://stark-scription.vercel.app/assets/stark_hero-wMjrhaZw.png)
+
 `SNRC-20` is an inscription standard based on Starknet, developed by developers from the Starknet community worldwide as a public good, capable of off-chain computation and verification.
 
 `SNRC-20` not only includes standards for the inscription, but also provides integration interfaces for SNRC-20-compatible smart contracts and suggestions for implementing indexers. 
