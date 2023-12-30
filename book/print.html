@@ -659,30 +659,33 @@ Through this hash value, we will be able to identify what operations the user ha
 <p>The Transfer Interface defines a function interface that can execute a <a href="Transfer_OP.html">Transfer operation</a>.</p>
 <h2 id="input-2"><a class="header" href="#input-2">Input</a></h2>
 <p>There are no strict requirements for the input, but it is recommended to use the input format defined in the <a href="Transfer_OP.html">Transfer operation</a>.</p>
-<p>You can also write a function that only takes the <code>tick</code>, <code>amt</code> parameters, then calculate the hash of all operations in your contract and inscribe it into the message, although this will consume more gas.</p>
+<p>You can also write a function that only takes the <code>tick</code>, <code>amt</code> and <code>recipient</code> parameters, then calculate the hash of all operations in your contract and inscribe it into the message, although this will consume more gas.</p>
 <h2 id="output-2"><a class="header" href="#output-2">Output</a></h2>
 <p>The output of this function should be a message payload, which conform to the following format:</p>
 <div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
 <tr><td>Transfer_hash</td><td>Felt252</td><td>Hash of Transfer operation</td></tr>
-<tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of this Transfer operation</td></tr>
+<tr><td>Recipient</td><td>ContractAddress</td><td>Recipient's address</td></tr>
+<tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of this transfer operation</td></tr>
 </tbody></table>
 </div>
 <p>These data contain the key elements to restore the complete <code>Transfer</code> inscription.</p>
 <p>Here is an example of an message payload(in Hex):</p>
 <div class="table-wrapper"><table><thead><tr><th>Index</th><th>Value</th></tr></thead><tbody>
-<tr><td>0</td><td>0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5</td></tr>
-<tr><td>1</td><td>0x22658</td></tr>
+<tr><td>0</td><td>0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d</td></tr>
+<tr><td>1</td><td>0x0</td></tr>
+<tr><td>2</td><td>0x22658</td></tr>
 </tbody></table>
 </div>
 <h2 id="event-2"><a class="header" href="#event-2">Event</a></h2>
 <p>After a Transfer function is successfully executed, it should emit an event. This will facilitate the indexer to include this transaction.</p>
 <p>The format of the events is as follows:</p>
-<p><code>event Transfer(sender, hash, amount)</code></p>
+<p><code>event Trasfer(sender, hash, recipient, amount)</code></p>
 <p>The parameters are:</p>
 <div class="table-wrapper"><table><thead><tr><th>Input</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td>sender</td><td>ContractAddress</td><td>Sender's address</td></tr>
-<tr><td>hash</td><td>Felt252</td><td>Transfer_hash</td></tr>
-<tr><td>amount</td><td>Felt252(u128)</td><td>Amount of this Transfer operation</td></tr>
+<tr><td>hash</td><td>Felt252</td><td>Mint_hash</td></tr>
+<tr><td>recipient</td><td>ContractAddress</td><td>Recipient's address</td></tr>
+<tr><td>amount</td><td>Felt252(u128)</td><td>Amount of this mint operation</td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><h1 id="indexer"><a class="header" href="#indexer">Indexer</a></h1>
 <p>Since inscriptions do not adopt the account balance mechanism by default (reminder: you can still combine it with the account balance mechanism, this is not mandatory), you need an indexer to record user balances.</p>
