@@ -73,15 +73,17 @@ When users transfer in a contract that meets the `SNRC-20` standard, they need t
 |  Paramter   | type  | Description |  
 |  ----  | ----  | ----  |
 | Transfer_hash  | Felt252 | Hash of Transfer operation |
+| Sender  | Felt252(address) | Address of the sender |
 | Recipient  | Felt252(address) | Address of the recipient |
 | Amount | Felt252(u128) | Amount of transfer  |
 
 For the Transfer operation, there is no `Lim` limit -- of course, you cannot transfer more than the amount of inscription balance you own.
 
-Therefore, the input value in this example should be:
+Therefore, the input value in this example coulb be:
 ```json
 "Transfer_hash": "0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d"
-"Recipient": "0x0"
+"Sender": "Sender's address"
+"Recipient": "Recipient's address"
 "Amount": 140888
 ```
 

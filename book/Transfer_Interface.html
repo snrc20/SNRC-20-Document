@@ -175,6 +175,7 @@
 <p>The output of this function should be a message payload, which conform to the following format:</p>
 <div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
 <tr><td>Transfer_hash</td><td>Felt252</td><td>Hash of Transfer operation</td></tr>
+<tr><td>Sender</td><td>ContractAddress</td><td>Sender's address</td></tr>
 <tr><td>Recipient</td><td>ContractAddress</td><td>Recipient's address</td></tr>
 <tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of this transfer operation</td></tr>
 </tbody></table>
@@ -183,8 +184,9 @@
 <p>Here is an example of an message payload(in Hex):</p>
 <div class="table-wrapper"><table><thead><tr><th>Index</th><th>Value</th></tr></thead><tbody>
 <tr><td>0</td><td>0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d</td></tr>
-<tr><td>1</td><td>0x0</td></tr>
-<tr><td>2</td><td>0x22658</td></tr>
+<tr><td>1</td><td>0x111111111111111111111111111111111111111111111111111111111111111</td></tr>
+<tr><td>2</td><td>0x0</td></tr>
+<tr><td>3</td><td>0x22658</td></tr>
 </tbody></table>
 </div>
 <h2 id="event"><a class="header" href="#event">Event</a></h2>

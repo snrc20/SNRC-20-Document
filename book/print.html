@@ -568,14 +568,16 @@ Through this hash value, we will be able to identify what operations the user ha
 <p>When users transfer in a contract that meets the <code>SNRC-20</code> standard, they need to organize their input in the following format:</p>
 <div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
 <tr><td>Transfer_hash</td><td>Felt252</td><td>Hash of Transfer operation</td></tr>
+<tr><td>Sender</td><td>Felt252(address)</td><td>Address of the sender</td></tr>
 <tr><td>Recipient</td><td>Felt252(address)</td><td>Address of the recipient</td></tr>
 <tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of transfer</td></tr>
 </tbody></table>
 </div>
 <p>For the Transfer operation, there is no <code>Lim</code> limit -- of course, you cannot transfer more than the amount of inscription balance you own.</p>
-<p>Therefore, the input value in this example should be:</p>
+<p>Therefore, the input value in this example coulb be:</p>
 <pre><code class="language-json">&quot;Transfer_hash&quot;: &quot;0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d&quot;
-&quot;Recipient&quot;: &quot;0x0&quot;
+&quot;Sender&quot;: &quot;Sender's address&quot;
+&quot;Recipient&quot;: &quot;Recipient's address&quot;
 &quot;Amount&quot;: 140888
 </code></pre>
 <p>Then, the contract that complies with the <code>SNRC-20</code> standard will inscribe the above input into the <code>L2-&gt;L1</code> Message and emit an event.</p>
@@ -664,6 +666,7 @@ Through this hash value, we will be able to identify what operations the user ha
 <p>The output of this function should be a message payload, which conform to the following format:</p>
 <div class="table-wrapper"><table><thead><tr><th>Paramter</th><th>type</th><th>Description</th></tr></thead><tbody>
 <tr><td>Transfer_hash</td><td>Felt252</td><td>Hash of Transfer operation</td></tr>
+<tr><td>Sender</td><td>ContractAddress</td><td>Sender's address</td></tr>
 <tr><td>Recipient</td><td>ContractAddress</td><td>Recipient's address</td></tr>
 <tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of this transfer operation</td></tr>
 </tbody></table>
@@ -672,8 +675,9 @@ Through this hash value, we will be able to identify what operations the user ha
 <p>Here is an example of an message payload(in Hex):</p>
 <div class="table-wrapper"><table><thead><tr><th>Index</th><th>Value</th></tr></thead><tbody>
 <tr><td>0</td><td>0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d</td></tr>
-<tr><td>1</td><td>0x0</td></tr>
-<tr><td>2</td><td>0x22658</td></tr>
+<tr><td>1</td><td>0x111111111111111111111111111111111111111111111111111111111111111</td></tr>
+<tr><td>2</td><td>0x0</td></tr>
+<tr><td>3</td><td>0x22658</td></tr>
 </tbody></table>
 </div>
 <h2 id="event-2"><a class="header" href="#event-2">Event</a></h2>

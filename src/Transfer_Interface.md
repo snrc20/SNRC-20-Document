@@ -14,6 +14,7 @@ The output of this function should be a message payload, which conform to the fo
 |  Paramter   | type  | Description |  
 |  ----  | ----  | ----  |
 | Transfer_hash | Felt252 | Hash of Transfer operation |
+| Sender | ContractAddress | Sender's address |
 | Recipient | ContractAddress | Recipient's address |
 | Amount | Felt252(u128) | Amount of this transfer operation |
 
@@ -24,8 +25,9 @@ Here is an example of an message payload(in Hex):
 |  Index   | Value  |
 |  ----  | ----  | 
 |  0  |  0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d | 
-|  1  |  0x0 | 
-|  2	 | 0x22658 | 
+|  1  |  0x111111111111111111111111111111111111111111111111111111111111111 | 
+|  2  |  0x0 | 
+|  3	 | 0x22658 | 
 
 ## Event
 After a Transfer function is successfully executed, it should emit an event. This will facilitate the indexer to include this transaction.
