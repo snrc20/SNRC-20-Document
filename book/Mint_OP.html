@@ -192,7 +192,7 @@ use core::traits::{Into, TryInto};
 
 fn main() -&gt; felt252 {
     /// Replace this with your own data. Be careful you should stringify it first.
-    let tick = 'COOL';
+    let tick = 'nwhp';
     let payload_pref: ByteArray = &quot;data:,{\&quot;p\&quot;:\&quot;snrc-20\&quot;,\&quot;op\&quot;:\&quot;mint\&quot;,\&quot;tick\&quot;:\&quot;&quot;;
     let payload_remain: ByteArray = &quot;\&quot;}&quot;;
     let mut output_array = ArrayTrait::&lt;felt252&gt;::new();
@@ -221,7 +221,10 @@ fn main() -&gt; felt252 {
     core::poseidon::poseidon_hash_span(output_array.span())
 }
 </code></pre></pre>
-<p>The return value of this Cairo program is <code>2536130100659665097965802068216911480645752635083323598690123513832282361525</code>, represented in hex as <code>0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5</code>.</p>
+<p>The return value of this Cairo program is </p>
+<p><code>1469956484733314490006856178496349941983860913245365919661958978345090908382</code>, </p>
+<p>represented in hex as </p>
+<p><code>0x33FF744581AA76AFA81006908ADC9A41B68FACB15ECF5E980EF56F9910380DE</code>.</p>
 <p>This is the hash value corresponding to the Mint operation. </p>
 <p>Through this hash value, we will be able to identify what operations the user has performed on chain in the indexer, and restore the complete inscription by searching the hash table.</p>
 <h2 id="mint-an-inscription-by-a-snrc-20-contract"><a class="header" href="#mint-an-inscription-by-a-snrc-20-contract">Mint an inscription by a SNRC-20 Contract</a></h2>
@@ -231,10 +234,10 @@ fn main() -&gt; felt252 {
 <tr><td>Amount</td><td>Felt252(u128)</td><td>Amount of mint</td></tr>
 </tbody></table>
 </div>
-<p>Referring to the <code>Lim</code> field in the previous <code>Deploy</code> operation example, we can set <code>Amount</code> to 140888.</p>
+<p>Referring to the <code>Lim</code> field in the previous <code>Deploy</code> operation example, we can set <code>Amount</code> to 19770525.</p>
 <p>Therefore, the input value in this example should be:</p>
-<pre><code class="language-json">&quot;Mint_hash&quot;: &quot;0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5&quot;
-&quot;Amount&quot;: 140888
+<pre><code class="language-json">&quot;Mint_hash&quot;: &quot;0x33FF744581AA76AFA81006908ADC9A41B68FACB15ECF5E980EF56F9910380DE&quot;
+&quot;Amount&quot;: 19770525
 </code></pre>
 <p>Then, the contract that complies with the <code>SNRC-20</code> standard will inscribe the above input into the <code>L2-&gt;L1</code> Message and emit an event.</p>
 

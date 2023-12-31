@@ -31,7 +31,7 @@ use core::traits::{Into, TryInto};
 
 fn main() -> felt252 {
     /// Replace this with your own data. Be careful you should stringify it first.
-    let tick = 'COOL';
+    let tick = 'nwhp';
     let payload_pref: ByteArray = "data:,{\"p\":\"snrc-20\",\"op\":\"transfer\",\"tick\":\"";
     let payload_remain: ByteArray = "\"}";
     let mut output_array = ArrayTrait::<felt252>::new();
@@ -62,7 +62,14 @@ fn main() -> felt252 {
 
 ```
 
-The return value of this Cairo program is `2933912682363903274717204685294024416745761509503926972848308509530766961245`, represented in hex as `0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d`.
+The return value of this Cairo program is 
+
+`3186081088044837381540966151676090343793197013422856004776743671156846440042`, 
+
+represented in hex as 
+
+`0x70B420BAF038B3D467D80FD313B0D2AEDBEB46B7157CED682649D4507292E6A`.
+
 This is the hash value corresponding to the Mint operation. 
 Through this hash value, we will be able to identify what operations the user has performed on chain in the indexer, and restore the complete inscription by searching the hash table.
 
@@ -81,10 +88,10 @@ For the Transfer operation, there is no `Lim` limit -- of course, you cannot tra
 
 Therefore, the input value in this example coulb be:
 ```json
-"Transfer_hash": "0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d"
+"Transfer_hash": "0x70B420BAF038B3D467D80FD313B0D2AEDBEB46B7157CED682649D4507292E6A"
 "Sender": "Sender's address"
 "Recipient": "Recipient's address"
-"Amount": 140888
+"Amount": 19770525
 ```
 
 Then, the contract that complies with the `SNRC-20` standard will inscribe the above input into the `L2->L1` Message and emit an event.

@@ -31,7 +31,7 @@ use core::traits::{Into, TryInto};
 
 fn main() -> felt252 {
     /// Replace this with your own data. Be careful you should stringify it first.
-    let tick = 'COOL';
+    let tick = 'nwhp';
     let payload_pref: ByteArray = "data:,{\"p\":\"snrc-20\",\"op\":\"mint\",\"tick\":\"";
     let payload_remain: ByteArray = "\"}";
     let mut output_array = ArrayTrait::<felt252>::new();
@@ -62,7 +62,13 @@ fn main() -> felt252 {
 
 ```
 
-The return value of this Cairo program is `2536130100659665097965802068216911480645752635083323598690123513832282361525`, represented in hex as `0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5`.
+The return value of this Cairo program is 
+
+`1469956484733314490006856178496349941983860913245365919661958978345090908382`, 
+
+represented in hex as 
+
+`0x33FF744581AA76AFA81006908ADC9A41B68FACB15ECF5E980EF56F9910380DE`.
 
 This is the hash value corresponding to the Mint operation. 
 
@@ -77,12 +83,12 @@ When users mint in a contract that meets the `SNRC-20` standard, they need to or
 | Mint_hash  | Felt252 | Hash of Mint operation |
 | Amount | Felt252(u128) | Amount of mint  |
 
-Referring to the `Lim` field in the previous `Deploy` operation example, we can set `Amount` to 140888.
+Referring to the `Lim` field in the previous `Deploy` operation example, we can set `Amount` to 19770525.
 
 Therefore, the input value in this example should be:
 ```json
-"Mint_hash": "0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5"
-"Amount": 140888
+"Mint_hash": "0x33FF744581AA76AFA81006908ADC9A41B68FACB15ECF5E980EF56F9910380DE"
+"Amount": 19770525
 ```
 
 Then, the contract that complies with the `SNRC-20` standard will inscribe the above input into the `L2->L1` Message and emit an event.

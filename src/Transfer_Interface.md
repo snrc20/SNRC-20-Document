@@ -24,7 +24,7 @@ Here is an example of an message payload(in Hex):
 
 |  Index   | Value  |
 |  ----  | ----  | 
-|  0  |  0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d | 
+|  0  |  0x70B420BAF038B3D467D80FD313B0D2AEDBEB46B7157CED682649D4507292E6A | 
 |  1  |  0x111111111111111111111111111111111111111111111111111111111111111 | 
 |  2  |  0x0 | 
 |  3	 | 0x22658 | 

@@ -22,7 +22,7 @@ Here is an example of an message payload(in Hex):
 
 |  Index   | Value  |
 |  ----  | ----  | 
-|  0  |  0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5 | 
+|  0  |  0x33FF744581AA76AFA81006908ADC9A41B68FACB15ECF5E980EF56F9910380DE | 
 |  1	 | 0x22658 | 
 
 ## Event

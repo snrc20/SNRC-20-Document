@@ -7,9 +7,9 @@ Consider the following inscription format, similar to [BRC-20](https://domo-2.gi
 { 
   "p": "snrc-20",
   "op": "deploy",
-  "tick": "COOL",
-  "max": "140888",
-  "lim": "140888" 
+  "tick": "nwhp",
+  "max": "19770525",
+  "lim": "19770525" 
 }
 ```
 
@@ -31,9 +31,9 @@ Therefore, the final Deploy inscription format involved in the calculation is as
 data:,{ 
   "p": "snrc-20",
   "op": "deploy",
-  "tick": "COOL",
-  "max": "140888",
-  "lim": "140888" 
+  "tick": "nwhp",
+  "max": "19770525",
+  "lim": "19770525" 
 }
 ```
 
@@ -50,9 +50,9 @@ use core::traits::{Into, TryInto};
 
 fn main() -> felt252 {
     /// Replace this with your own data. Be careful you should stringify it first.
-    let tick = 'COOL';
-    let max: u128 = 140888;
-    let lim: u128 = 140888;
+    let tick = 'nwhp';
+    let max: u128 = 19770525;
+    let lim: u128 = 19770525;
     let payload_pref: ByteArray = "data:,{\"p\":\"snrc-20\",\"op\":\"deploy\",\"tick\":\"";
     let payload_max: ByteArray = "\",\"max\":\"";
     let payload_lim: ByteArray = "\",\"lim\":\"";
@@ -107,11 +107,11 @@ fn main() -> felt252 {
 
 The return value of this Cairo program is 
 
-`3539966466338062280723903945602743530625753975496839308572805391711777814555`
+`916838225186069478585876038986673186814268706728240273539841908638806157666`
 
 , represented in hex as 
 
-`0x7d38ccde6d4bc0efda3e101b134f7806e37b03894aa41afa9fe0268687f781b`.
+`0x206E97BD728106AAE642A8847107EF91922321FF00A4FEB7A99880D4D8BA962`.
 
 This is the hash value corresponding to the Deploy operation. 
 
@@ -122,17 +122,17 @@ However, for the complete Deploy parameters, we also need the hash values corres
 
 Please refer to the next two chapters for this content. Here, for this tick : 
 ```
-  "tick": "COOL",
-  "max": "140888",
-  "lim": "140888" 
+  "tick": "nwhp",
+  "max": "19770525",
+  "lim": "19770525" 
 ```
 We will first assume that the hash corresponding to Mint is 
 
-`0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5`
+`0x33FF744581AA76AFA81006908ADC9A41B68FACB15ECF5E980EF56F9910380DE`
 
 , and the hash corresponding to Transfer is 
 
-`0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d`.
+`0x70B420BAF038B3D467D80FD313B0D2AEDBEB46B7157CED682649D4507292E6A`.
 
 A Deploy operation requires the following six parameters:
 
@@ -155,12 +155,12 @@ When users deploy an inscription in a contract that meets the `SNRC-20` standard
 The input value in this example should be:
 
 ```json
-"Deploy_hash": "0x7d38ccde6d4bc0efda3e101b134f7806e37b03894aa41afa9fe0268687f781b"
-"Mint_hash": "0x59b6615aedfdd1bd23b762b51485eae4c5ee84189c21c2b59822fea62518eb5"
-"Transfer_hash": "0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d",
-"Tick": "COOL",
-"Max": 140888,
-"Lim": 140888
+"Deploy_hash": "0x206E97BD728106AAE642A8847107EF91922321FF00A4FEB7A99880D4D8BA962"
+"Mint_hash": "0x33FF744581AA76AFA81006908ADC9A41B68FACB15ECF5E980EF56F9910380DE"
+"Transfer_hash": "0x70B420BAF038B3D467D80FD313B0D2AEDBEB46B7157CED682649D4507292E6A",
+"Tick": "nwhp",
+"Max": 19770525,
+"Lim": 19770525
 ```
 
 Then, the contract that complies with the `SNRC-20` standard will inscribe the above input into the `L2->L1` Message and emit an event.

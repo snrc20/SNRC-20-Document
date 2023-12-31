@@ -192,7 +192,7 @@ use core::traits::{Into, TryInto};
 
 fn main() -&gt; felt252 {
     /// Replace this with your own data. Be careful you should stringify it first.
-    let tick = 'COOL';
+    let tick = 'nwhp';
     let payload_pref: ByteArray = &quot;data:,{\&quot;p\&quot;:\&quot;snrc-20\&quot;,\&quot;op\&quot;:\&quot;transfer\&quot;,\&quot;tick\&quot;:\&quot;&quot;;
     let payload_remain: ByteArray = &quot;\&quot;}&quot;;
     let mut output_array = ArrayTrait::&lt;felt252&gt;::new();
@@ -221,8 +221,11 @@ fn main() -&gt; felt252 {
     core::poseidon::poseidon_hash_span(output_array.span())
 }
 </code></pre></pre>
-<p>The return value of this Cairo program is <code>2933912682363903274717204685294024416745761509503926972848308509530766961245</code>, represented in hex as <code>0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d</code>.
-This is the hash value corresponding to the Mint operation. 
+<p>The return value of this Cairo program is </p>
+<p><code>3186081088044837381540966151676090343793197013422856004776743671156846440042</code>, </p>
+<p>represented in hex as </p>
+<p><code>0x70B420BAF038B3D467D80FD313B0D2AEDBEB46B7157CED682649D4507292E6A</code>.</p>
+<p>This is the hash value corresponding to the Mint operation. 
 Through this hash value, we will be able to identify what operations the user has performed on chain in the indexer, and restore the complete inscription by searching the hash table.</p>
 <h2 id="transfer-an-inscription-by-a-snrc-20-contract"><a class="header" href="#transfer-an-inscription-by-a-snrc-20-contract">Transfer an inscription by a SNRC-20 Contract</a></h2>
 <p>When users transfer in a contract that meets the <code>SNRC-20</code> standard, they need to organize their input in the following format:</p>
@@ -235,10 +238,10 @@ Through this hash value, we will be able to identify what operations the user ha
 </div>
 <p>For the Transfer operation, there is no <code>Lim</code> limit -- of course, you cannot transfer more than the amount of inscription balance you own.</p>
 <p>Therefore, the input value in this example coulb be:</p>
-<pre><code class="language-json">&quot;Transfer_hash&quot;: &quot;0x67c8925ab87c1501277c28168c59fbb93e434fd75c9133e455b866fd7efea5d&quot;
+<pre><code class="language-json">&quot;Transfer_hash&quot;: &quot;0x70B420BAF038B3D467D80FD313B0D2AEDBEB46B7157CED682649D4507292E6A&quot;
 &quot;Sender&quot;: &quot;Sender's address&quot;
 &quot;Recipient&quot;: &quot;Recipient's address&quot;
-&quot;Amount&quot;: 140888
+&quot;Amount&quot;: 19770525
 </code></pre>
 <p>Then, the contract that complies with the <code>SNRC-20</code> standard will inscribe the above input into the <code>L2-&gt;L1</code> Message and emit an event.</p>
 
